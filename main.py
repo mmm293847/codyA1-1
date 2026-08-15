@@ -199,6 +199,108 @@ def category_prompts(prompts):
         print("❌ 해당 카테고리에 프롬프트가 없습니다.")
 
 
+# =========================
+# 즐겨찾기
+# =========================
+def favorite_prompts(prompts):
+    while True:
+        print("\n========== ⭐ 즐겨찾기 ==========")
+        print("1. 즐겨찾기 목록")
+        print("2. 즐겨찾기 추가/해제")
+        print("0. 돌아가기")
+
+        choice = input("\n선택: ")
+
+        # -------------------------
+        # 1. 즐겨찾기 목록
+        # -------------------------
+        if choice == "1":
+            favorites = [
+                prompt
+                for prompt in prompts
+                if prompt["favorite"]
+            ]
+
+            if not favorites:
+                print("\n⭐ 즐겨찾기에 등록된 프롬프트가 없습니다.")
+                continue
+
+            print(f"\n⭐ 즐겨찾기: {len(favorites)}개\n")
+
+            for prompt in favorites:
+                print("--------------------------------")
+                print(f"ID       : {prompt['id']}")
+                print(f"제목     : {prompt['title']} ⭐")
+                print(f"카테고리 : {prompt['category']}")
+                print(f"키워드   : {', '.join(prompt['keywords'])}")
+                print(f"내용     : {prompt['content']}")
+                print("--------------------------------")
+
+        # -------------------------
+        # 2. 즐겨찾기 추가/해제
+        # -------------------------
+        elif choice == "2":
+
+            if not prompts:
+                print("\n❌ 저장된 프롬프트가 없습니다.")
+                continue
+
+            print("\n========== 프롬프트 목록 ==========\n")
+
+            for prompt in prompts:
+                favorite = "⭐" if prompt["favorite"] else ""
+
+                print(
+                    f"{prompt['id']}. "
+                    f"{prompt['title']} "
+                    f"{favorite}"
+                )
+
+            try:
+                prompt_id = int(
+                    input("\n즐겨찾기 변경할 프롬프트 ID: ")
+                )
+            except ValueError:
+                print("❌ 숫자를 입력해주세요.")
+                continue
+
+            selected_prompt = None
+
+            for prompt in prompts:
+                if prompt["id"] == prompt_id:
+                    selected_prompt = prompt
+                    break
+
+            if selected_prompt is None:
+                print("❌ 해당 ID의 프롬프트가 없습니다.")
+                continue
+
+            # 즐겨찾기 상태 변경
+            selected_prompt["favorite"] = not selected_prompt["favorite"]
+
+            save_prompts(prompts)
+
+            if selected_prompt["favorite"]:
+                print(
+                    f"\n⭐ '{selected_prompt['title']}' "
+                    "프롬프트를 즐겨찾기에 추가했습니다."
+                )
+            else:
+                print(
+                    f"\n☆ '{selected_prompt['title']}' "
+                    "프롬프트를 즐겨찾기에서 해제했습니다."
+                )
+
+        # -------------------------
+        # 0. 돌아가기
+        # -------------------------
+        elif choice == "0":
+            break
+
+        else:
+            print("❌ 잘못된 입력입니다.")
+
+
 
 # =========================
 # 메인 메뉴
@@ -238,6 +340,9 @@ def main():
 
         elif choice == "4":
             category_prompts(prompts)
+
+        elif choice == "5":
+            favorite_prompts(prompts)
 
         else:
             print("❌ 잘못된 입력입니다.")
