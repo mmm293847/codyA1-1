@@ -162,6 +162,9 @@ def main():
             print("프로그램을 종료합니다.")
             break
 
+        elif choice == "3":
+            search_prompts(prompts)
+
         else:
             print("❌ 잘못된 입력입니다.")
 
