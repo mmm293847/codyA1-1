@@ -128,6 +128,77 @@ def search_prompts(prompts):
         print(f"내용     : {prompt['content']}")
         print("--------------------------------")
 
+        # =========================
+# 카테고리별 프롬프트 보기
+# =========================
+def category_prompts(prompts):
+    print("\n========== 카테고리별 보기 ==========\n")
+
+    # 저장된 카테고리 가져오기
+    categories = []
+
+    for prompt in prompts:
+        category = prompt["category"]
+
+        if category not in categories:
+            categories.append(category)
+
+    # 프롬프트가 없는 경우
+    if not categories:
+        print("❌ 저장된 프롬프트가 없습니다.")
+        return
+
+    # 카테고리 목록 출력
+    print("카테고리 목록")
+
+    for i, category in enumerate(categories, start=1):
+        print(f"{i}. {category}")
+
+    print("0. 돌아가기")
+
+    choice = input("\n카테고리를 선택하세요: ")
+
+    # 뒤로가기
+    if choice == "0":
+        return
+
+    # 숫자인지 확인
+    if not choice.isdigit():
+        print("❌ 잘못된 입력입니다.")
+        return
+
+    category_index = int(choice) - 1
+
+    # 존재하는 카테고리인지 확인
+    if category_index < 0 or category_index >= len(categories):
+        print("❌ 존재하지 않는 카테고리입니다.")
+        return
+
+    selected_category = categories[category_index]
+
+    print(f"\n========== [{selected_category}] 프롬프트 ==========\n")
+
+    # 선택한 카테고리의 프롬프트만 출력
+    found = False
+
+    for prompt in prompts:
+        if prompt["category"] == selected_category:
+            found = True
+
+            favorite = "⭐" if prompt["favorite"] else ""
+
+            print("--------------------------------")
+            print(f"ID       : {prompt['id']}")
+            print(f"제목     : {prompt['title']} {favorite}")
+            print(f"카테고리 : {prompt['category']}")
+            print(f"키워드   : {', '.join(prompt['keywords'])}")
+            print(f"내용     : {prompt['content']}")
+            print("--------------------------------")
+
+    if not found:
+        print("❌ 해당 카테고리에 프롬프트가 없습니다.")
+
+
 
 # =========================
 # 메인 메뉴
@@ -164,6 +235,9 @@ def main():
 
         elif choice == "3":
             search_prompts(prompts)
+
+        elif choice == "4":
+            category_prompts(prompts)
 
         else:
             print("❌ 잘못된 입력입니다.")
