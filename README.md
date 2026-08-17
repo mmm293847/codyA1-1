@@ -77,7 +77,7 @@ PS D:\codyssey\미션A\codyA1-1> python main.py
 
 ✅ 프롬프트가 추가되었습니다!
 ```
-
+```
 python main.py 입력
 ↓
 메뉴 전송
@@ -87,6 +87,7 @@ python main.py 입력
 제목, 카테고리, 키워드 입력과 프롬프트 내용 입력
 ↓
 프롬프트 추가 완료
+```
 
 ---
 
