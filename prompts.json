@@ -1,0 +1,24 @@
+[
+    {
+        "id": 1,
+        "title": "코디세이 B1-1 미션",
+        "content": "",
+        "category": "페르소나",
+        "keywords": [
+            "텍스트 생성",
+            "페르소나"
+        ],
+        "favorite": false
+    },
+    {
+        "id": 2,
+        "title": "코디세이 B1-3 미션",
+        "content": "",
+        "category": "자동화",
+        "keywords": [
+            "텍스트 생성",
+            "자동화"
+        ],
+        "favorite": false
+    }
+]

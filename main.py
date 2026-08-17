@@ -422,6 +422,77 @@ def edit_prompt(prompts):
 
     print("\n✅ 프롬프트가 수정되었습니다!")
 
+# =========================
+# 프롬프트 삭제
+# =========================
+def delete_prompt(prompts):
+    print("\n========== 프롬프트 삭제 ==========\n")
+
+    if not prompts:
+        print("❌ 저장된 프롬프트가 없습니다.")
+        return
+
+    # 현재 프롬프트 목록 출력
+    print("현재 프롬프트 목록\n")
+
+    for prompt in prompts:
+        favorite = "⭐" if prompt["favorite"] else ""
+
+        print(
+            f"ID: {prompt['id']} | "
+            f"제목: {prompt['title']} "
+            f"{favorite}"
+        )
+
+    # 삭제할 ID 입력
+    try:
+        prompt_id = int(
+            input("\n삭제할 프롬프트 ID: ")
+        )
+    except ValueError:
+        print("❌ 숫자를 입력해주세요.")
+        return
+
+    # 삭제할 프롬프트 찾기
+    selected_prompt = None
+
+    for prompt in prompts:
+        if prompt["id"] == prompt_id:
+            selected_prompt = prompt
+            break
+
+    # 해당 ID가 없는 경우
+    if selected_prompt is None:
+        print("❌ 해당 ID의 프롬프트가 없습니다.")
+        return
+
+    # 삭제할 프롬프트 정보 출력
+    print("\n========== 삭제할 프롬프트 ==========\n")
+    print(f"ID       : {selected_prompt['id']}")
+    print(f"제목     : {selected_prompt['title']}")
+    print(f"카테고리 : {selected_prompt['category']}")
+    print(f"키워드   : {', '.join(selected_prompt['keywords'])}")
+    print(f"내용     : {selected_prompt['content']}")
+
+    # 삭제 확인
+    confirm = input(
+        "\n정말 삭제하시겠습니까? (y/n): "
+    ).strip().lower()
+
+    if confirm != "y":
+        print("\n❌ 삭제를 취소했습니다.")
+        return
+
+    # 프롬프트 삭제
+    prompts.remove(selected_prompt)
+
+    # JSON 파일 저장
+    save_prompts(prompts)
+
+    print(
+        f"\n✅ '{selected_prompt['title']}' "
+        "프롬프트가 삭제되었습니다."
+    )
 
 # =========================
 # 메인 메뉴
@@ -463,6 +534,9 @@ def main():
 
         elif choice == "6":
             edit_prompt(prompts)
+
+        elif choice == "7":
+            delete_prompt(prompts)
 
         elif choice == "0":
             print("프로그램을 종료합니다.")
