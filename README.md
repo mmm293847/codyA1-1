@@ -516,4 +516,21 @@ ID       : 2
 ---
 
 ## 10. 사용한 Git 명령어 정리
+```
+ git init     : 로컬 저장소 초기화
+- git add      : 변경 파일을 스테이징 영역에 추가
+- git commit   : 스테이징된 변경사항을 저장
+- git push     : 로컬 커밋을 GitHub에 업로드
+- git pull     : 원격 저장소 변경사항을 로컬에 반영
+- git checkout : 브랜치 생성 및 이동
+- git clone    : 원격 저장소를 로컬에 복사
+- git merge    : 브랜치를 main에 병합
+```
+
+---
+
+## 11. git log
+
+<img width="571" height="190" alt="A1-1 git log 스크린샷" src="https://github.com/user-attachments/assets/8ab11245-40aa-4e35-b5ad-c201145694ca" />
+
 
