@@ -79,6 +79,37 @@ def add_prompt(prompts):
     print("\n✅ 프롬프트가 추가되었습니다!")
 
 # =========================
+# 프롬프트 목록 보기
+# =========================
+def list_prompts(prompts):
+    print("\n========== 📋 프롬프트 목록 ==========\n")
+
+    # 프롬프트가 없는 경우
+    if not prompts:
+        print("❌ 저장된 프롬프트가 없습니다.")
+        return
+
+    print(f"총 {len(prompts)}개의 프롬프트가 저장되어 있습니다.\n")
+
+    for prompt in prompts:
+        favorite = "⭐ 즐겨찾기" if prompt["favorite"] else ""
+
+        print("┌" + "─" * 58 + "┐")
+        print(f"│ ID       : {prompt['id']}")
+        print(f"│ 제목     : {prompt['title']} {favorite}")
+        print(f"│ 카테고리 : {prompt['category']}")
+        print(f"│ 키워드   : {', '.join(prompt['keywords'])}")
+        print("├" + "─" * 58 + "┤")
+        print("│ 내용")
+
+        # 여러 줄로 작성된 프롬프트도 보기 좋게 출력
+        for line in prompt["content"].split("\n"):
+            print(f"│ {line}")
+
+        print("└" + "─" * 58 + "┘")
+        print()
+
+# =========================
 # 프롬프트 검색
 # =========================
 def search_prompts(prompts):
@@ -520,8 +551,7 @@ def main():
             add_prompt(prompts)
 
         elif choice == "2":
-            print("\n현재 저장된 프롬프트:")
-            print(prompts)
+          list_prompts(prompts)
 
         elif choice == "3":
             search_prompts(prompts)
