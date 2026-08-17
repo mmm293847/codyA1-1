@@ -128,7 +128,8 @@ def search_prompts(prompts):
         print(f"내용     : {prompt['content']}")
         print("--------------------------------")
 
-        # =========================
+
+# =========================
 # 카테고리별 프롬프트 보기
 # =========================
 def category_prompts(prompts):
@@ -275,7 +276,6 @@ def favorite_prompts(prompts):
                 print("❌ 해당 ID의 프롬프트가 없습니다.")
                 continue
 
-            # 즐겨찾기 상태 변경
             selected_prompt["favorite"] = not selected_prompt["favorite"]
 
             save_prompts(prompts)
@@ -300,6 +300,127 @@ def favorite_prompts(prompts):
         else:
             print("❌ 잘못된 입력입니다.")
 
+
+# =========================
+# 프롬프트 수정
+# =========================
+def edit_prompt(prompts):
+    print("\n========== 프롬프트 수정 ==========\n")
+
+    if not prompts:
+        print("❌ 저장된 프롬프트가 없습니다.")
+        return
+
+    # 프롬프트 목록
+    print("현재 프롬프트 목록\n")
+
+    for prompt in prompts:
+        favorite = "⭐" if prompt["favorite"] else ""
+
+        print(
+            f"ID: {prompt['id']} | "
+            f"제목: {prompt['title']} {favorite}"
+        )
+
+    # 수정할 ID
+    try:
+        prompt_id = int(
+            input("\n수정할 프롬프트 ID: ")
+        )
+    except ValueError:
+        print("❌ 숫자를 입력해주세요.")
+        return
+
+    # 프롬프트 찾기
+    selected_prompt = None
+
+    for prompt in prompts:
+        if prompt["id"] == prompt_id:
+            selected_prompt = prompt
+            break
+
+    if selected_prompt is None:
+        print("❌ 해당 ID의 프롬프트가 없습니다.")
+        return
+
+    # 현재 정보
+    print("\n========== 현재 프롬프트 ==========\n")
+    print(f"제목     : {selected_prompt['title']}")
+    print(f"카테고리 : {selected_prompt['category']}")
+    print(f"키워드   : {', '.join(selected_prompt['keywords'])}")
+    print(f"내용     :\n{selected_prompt['content']}")
+
+    print("\n--------------------------------")
+    print("수정하지 않을 항목은 Enter를 누르세요.")
+    print("--------------------------------\n")
+
+    # 제목
+    new_title = input(
+        f"제목 [{selected_prompt['title']}]: "
+    ).strip()
+
+    if new_title:
+        selected_prompt["title"] = new_title
+
+    # 카테고리
+    new_category = input(
+        f"카테고리 [{selected_prompt['category']}]: "
+    ).strip()
+
+    if new_category:
+        selected_prompt["category"] = new_category
+
+    # 키워드
+    current_keywords = ", ".join(
+        selected_prompt["keywords"]
+    )
+
+    new_keywords_input = input(
+        f"키워드 [{current_keywords}]: "
+    ).strip()
+
+    if new_keywords_input:
+        selected_prompt["keywords"] = [
+            keyword.strip()
+            for keyword in new_keywords_input.split(",")
+            if keyword.strip()
+        ]
+
+    # 내용
+    print("\n프롬프트 내용을 수정하세요.")
+    print("기존 내용을 유지하려면 첫 줄에서 Enter를 누르세요.")
+    print("입력을 끝내려면 빈 줄에서 Enter를 누르세요.\n")
+
+    print("----- 현재 내용 -----")
+    print(selected_prompt["content"])
+    print("--------------------\n")
+
+    content_lines = []
+
+    first_line = input("> ")
+
+    if first_line == "":
+        new_content = selected_prompt["content"]
+
+    else:
+        content_lines.append(first_line)
+
+        while True:
+            line = input("> ")
+
+            if line == "":
+                break
+
+            content_lines.append(line)
+
+        new_content = "\n".join(content_lines)
+
+    selected_prompt["content"] = new_content
+
+    # 저장
+    save_prompts(prompts)
+
+    print("\n✅ 프롬프트가 수정되었습니다!")
 
 
 # =========================
@@ -331,10 +452,6 @@ def main():
             print("\n현재 저장된 프롬프트:")
             print(prompts)
 
-        elif choice == "0":
-            print("프로그램을 종료합니다.")
-            break
-
         elif choice == "3":
             search_prompts(prompts)
 
@@ -344,10 +461,19 @@ def main():
         elif choice == "5":
             favorite_prompts(prompts)
 
+        elif choice == "6":
+            edit_prompt(prompts)
+
+        elif choice == "0":
+            print("프로그램을 종료합니다.")
+            break
+
         else:
             print("❌ 잘못된 입력입니다.")
 
 
+# =========================
 # 프로그램 시작
+# =========================
 if __name__ == "__main__":
     main()
