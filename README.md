@@ -44,6 +44,10 @@ python main.py
 
 ## 5. 기능 목록
 
+### 5-0. 메뉴 스크린샷
+<img width="384" height="282" alt="image" src="https://github.com/user-attachments/assets/d67dc892-8431-4526-a22b-5efd5cb4ceaa" />
+
+
 ### 5-1. 프롬프트 추가
 
 ```
